@@ -43,7 +43,7 @@ float rrang(double _min, double _max) {
 	return (double)rand() * (_max - _min) / (double)RAND_MAX + _min;
 }
 
-float drawFloor() {
+void drawFloor() {
 	glColor3f(0.3f, 0.3f, 0.3f);
 	glBegin(GL_LINES);
 
@@ -57,7 +57,6 @@ float drawFloor() {
 	}
 
 	glEnd();
-
 }
 
 int main(void)
@@ -104,12 +103,12 @@ int main(void)
 	//locationM << 362600000,0,0;
 	locationM <<   405400000,0,0;
 	Eigen::VectorXd velocityM(3);
-	velocityM << 0,0,964.0;
+	velocityM << 0,964.0,0;
 	pManager.addParticle(new Particle(locationM, velocityM, 73420000000000000000000.0, 3344));
 
 	//Offset moons momentum
-	double momentum = pManager.particles[1]->mass * pManager.particles[1]->velocity[2];
-	pManager.particles[0]->velocity[2] = -momentum / pManager.particles[0]->mass;
+	double momentum = pManager.particles[1]->mass * pManager.particles[1]->velocity[1];
+	pManager.particles[0]->velocity[1] = -momentum / pManager.particles[0]->mass;
 
     while (!glfwWindowShouldClose(window)) {
     	//std::cout << delta_time << std::endl;
@@ -181,6 +180,15 @@ int main(void)
         glEnd();
 */
         drawFloor();
+
+        glColor3f(1.0f, 0,0);
+        glBegin(GL_LINES);
+        for(unsigned int i=0; i<pManager.particles.size(); i++) {
+        	Particle *p = pManager.particles[i];
+        	glVertex3f((float)p->location[0],(float)p->location[1],(float)p->location[2]);
+        	glVertex3f((float)p->location[0],(float)0,(float)p->location[2]);
+        }
+        glEnd();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
