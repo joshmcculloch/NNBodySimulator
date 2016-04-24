@@ -12,13 +12,16 @@
 
 class Particle {
 public:
-	Particle(Eigen::Vector3f _location, Eigen::Vector3f _velocity, float _mass);
+	Particle(Eigen::VectorXd _location, Eigen::VectorXd _velocity, double _mass, double _density);
 	virtual ~Particle();
-	void interact(Particle *p);
-	void step();
-	Eigen::Vector3f location;
-	Eigen::Vector3f velocity;
-	float mass;
+	bool interact(Particle *p, double delta_time);
+	void step(float delta_time);
+	Eigen::VectorXd location;
+	Eigen::VectorXd velocity;
+	bool active;
+	double density;
+	double mass;
+	double radius;
 };
 
 #endif /* PARTICLE_H_ */
