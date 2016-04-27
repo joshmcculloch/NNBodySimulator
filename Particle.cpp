@@ -42,9 +42,9 @@ Particle::interact(Particle *p, double delta_time) {
 		Eigen::VectorXd v2 = ((velocity-p->velocity)*CR*mass + velocity*mass + p->velocity*p->mass) / (mass+p->mass);
 		velocity = v1;
 		p->velocity = v2;
-		std::cout << velocity << std::endl;
-		std::cout << "    -     " << velocity.dot(p->velocity) / velocity.norm() << "    " << (std::abs(velocity.dot(p->velocity) / velocity.norm() )-1) << std::endl;
-		if ((std::abs(velocity.dot(p->velocity) / velocity.norm()) -1)  < 0.05) {
+		//std::cout << velocity << std::endl;
+		//std::cout << "    -     " << velocity.dot(p->velocity) / velocity.norm() << "    " << (std::abs(velocity.dot(p->velocity) / velocity.norm() )-1) << std::endl;
+		if (std::abs(velocity.normalized().dot(p->velocity.normalized()) -1)  < 0.10) {
 			velocity = (velocity*mass + p->velocity*p->mass) / (mass + p->mass);
 			location = (location*mass + p->location*p->mass) / (mass + p->mass);
 			mass += p->mass;
